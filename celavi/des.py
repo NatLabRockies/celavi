@@ -42,7 +42,8 @@ class Context:
         max_timesteps: int = 600,
         timesteps_per_year: int = 12,
         model_run : int = 0,
-        verbose : int = 0
+        verbose : int = 0,
+        shutdown_lca : bool = False
     ):
         """
         Parameters
@@ -112,6 +113,7 @@ class Context:
         self.min_year = min_year
         self.end_year = end_year
         self.timesteps_per_year = timesteps_per_year
+        self.shutdown_lca = shutdown_lca
 
         self.components: List[Component] = []
         self.env = simpy.Environment()
@@ -515,7 +517,8 @@ class Context:
                 
                 # Some transportation flows may be zero for transpo between colocated facilities
                 # Drop those before sending the flow df for LCIA calcs
-                self.lca.pylca_run_main(df_to_lcia_calcs.loc[df_to_lcia_calcs['flow quantity'] != 0], self.verbose)
+                if not self.shutdown_lca:
+                    self.lca.pylca_run_main(df_to_lcia_calcs.loc[df_to_lcia_calcs['flow quantity'] != 0], self.verbose)
                 self.lci_last_sent = df_to_lcia_calcs.loc[df_to_lcia_calcs['flow quantity'] != 0]
             else:
                 if self.verbose > 0:
