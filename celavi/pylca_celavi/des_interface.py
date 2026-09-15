@@ -166,8 +166,6 @@ class PylcaCelavi:
         os.makedirs = _makedirs_exist_ok
         # ──────────────────────────────────────────────────────────────────────────────
 
-        import brightway2 as bw
-
         os.makedirs = _orig_makedirs
         
         # Set up Brightway environment variable
