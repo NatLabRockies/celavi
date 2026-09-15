@@ -51,6 +51,7 @@ class PylcaCelavi:
         use_shortcut_lca_calculations: bool = False,
         verbose: bool = False,
         run: int = 0,
+        shutdown_lca : bool = False,
     ) -> None:
         """
         Initialize LCA runner, configure Brightway, and clear previous results.
@@ -101,6 +102,7 @@ class PylcaCelavi:
         self.use_shortcut_lca_calculations = use_shortcut_lca_calculations
         self.verbose = verbose
         self.run_id = run
+        self.shutdown_lca = shutdown_lca
 
         stop_flag = 0
         try:
@@ -165,8 +167,9 @@ class PylcaCelavi:
         os.environ["BRIGHTWAY2_DIR"] = str(self.brightway_dir)
         if self.verbose:
             print("Importing Brightway2 module...", flush=True)
-        import brightway2 as bw
-        self.bw = bw
+        if not self.shutdown_lca:
+            import brightway2 as bw
+            self.bw = bw
         if self.verbose:
             print("Imported Brightway2", flush=True)
 

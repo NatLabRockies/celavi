@@ -385,6 +385,7 @@ class Scenario:
             ),
             verbose = self.case["model_run"].get("lcia_verbose"),
             run=self.run,
+            shutdown_lca=self.scen["flags"].get("shutdown_lca", False)
         )
 
 
@@ -466,6 +467,7 @@ class Scenario:
             max_timesteps=des_timesteps,
             timesteps_per_year=timesteps_per_year,
             model_run=self.run,
+            shutdown_lca=self.scen["flags"].get("shutdown_lca", False)
         )
 
         print(f"Context initialized at {self.simtime(self.start)} s", flush=True)
