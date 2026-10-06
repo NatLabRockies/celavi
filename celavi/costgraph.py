@@ -319,9 +319,18 @@ class CostGraph:
         
         # return the smallest of all lengths to get to typeofnode
         if len(lengths) > 0:
-            if self.verbose > 1:
-                # For detailed debugging, save a file of all paths found and their lengths
-                pd.DataFrame([short_paths, lengths]).to_csv(f'{source_node}-findnearest-{int(self.year)}-paths.csv', index=False)
+            #if self.verbose > 1:
+            # @TODO Replace the verbose if statement to turn this off once debugging is complete
+            # For detailed debugging, save a file of all paths found and their lengths
+            _pathdf = pd.DataFrame([short_paths, lengths]).T
+            _pathdf.rename(columns = {0: 'path', 1: 'length'}, inplace = True)
+            _pathdf['source_node'] = source_node
+
+            with open(f'../celavi-data/_findnearest-{int(self.year)}-paths.csv', "a") as f:
+                _pathdf.to_csv(
+                    f, mode="a", header=f.tell() == 0, index=False, lineterminator="\n"
+                )
+           #pd.DataFrame([short_paths, lengths]).to_csv(f'{source_node}-findnearest-{int(self.year)}-paths.csv', index=False)
 
             # Print a summary of the paths found
             if self.verbose > 1:
