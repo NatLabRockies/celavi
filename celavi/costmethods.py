@@ -239,9 +239,18 @@ class CostMethods:
 
         # calculate additional cost of landfilling the lost material
         # (USD/metric ton)
-        _landfill = _loss * self.landfilling(path_dict)
+        if _loss != 0:
+            _loss_pathway = path_dict['path_split'][process]['facility_1']
+            if _loss_pathway == 'landfilling':
+                _net_loss_cost = _loss * self.landfilling(path_dict)
+            else:
+                _loss_cost = path_dict['cost uncertainty'][_loss_pathway]['initial cost']
+                _loss_revenue = path_dict['cost uncertainty'][_loss_pathway]['revenue']
+                _net_loss_cost = _loss * (_loss_cost - _loss_revenue)
+        else:
+            _net_loss_cost = 0.0
 
-        return _cost + _landfill - _revenue
+        return _cost + _net_loss_cost - _revenue
 
 
     def solar_glass_manufacturing(self, path_dict):
