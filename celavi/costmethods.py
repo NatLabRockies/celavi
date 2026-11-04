@@ -615,7 +615,7 @@ class CostMethods:
     def electric_steel_smelting(self, path_dict):
         """
         Call the process_cost_loss_revenue_model method for 
-        process = 'electric steel smelting'.
+        process = 'electrical steel smelting'.
         
         Parameters
         ----------
@@ -627,10 +627,10 @@ class CostMethods:
         Returns
         -------
             Call to process_cost_loss_revenue_model with process = 
-            'electric steel smelting'
+            'electrical steel smelting'
         """
         return self.process_cost_loss_revenue_model(
-            path_dict, 'electric steel smelting')
+            path_dict, 'electrical steel smelting')
 
 
     def cold_rolling(self, path_dict):
